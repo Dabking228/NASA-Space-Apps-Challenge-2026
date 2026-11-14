@@ -24,7 +24,7 @@ Constraints that apply to every task:
     - Remove demo content (logos, default page text, `next/font/google`) and use the system font stack. Keep `src/app/layout.tsx`, `src/app/page.tsx` and `src/app/globals.css` only
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.7, 1.8, 10.1, 10.2_
 
-  - [ ] 1.2 Configure Prettier and the package scripts
+  - [x] 1.2 Configure Prettier and the package scripts
     - Add `.prettierrc.json` (Prettier defaults plus `"singleQuote": true`) and `.prettierignore` (`.next`, `node_modules`, `coverage`, `package-lock.json`, `next-env.d.ts`, `.kiro`, `docs`)
     - Add `eslint-config-prettier` and `prettier` as devDependencies at exact versions
     - Define the scripts `dev`, `build` (`npm run lint && next build`), `start`, `lint` (`eslint .`), `format`, `format:check`, `typecheck` (`tsc --noEmit`), `test` (`vitest run`), `test:watch` (`vitest`) and `check` (`npm run lint && npm run format:check && npm run typecheck && npm run test`)
