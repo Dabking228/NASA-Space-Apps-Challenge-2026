@@ -16,7 +16,7 @@ Constraints that apply to every task:
 ## Tasks
 
 - [ ] 1. Scaffold the project and base tooling
-  - [-] 1.1 Generate the Next.js scaffold and merge it into the repository
+  - [x] 1.1 Generate the Next.js scaffold and merge it into the repository
     - Run `npx create-next-app@latest` in a temporary directory (TypeScript, Tailwind, ESLint, App Router, `src/` directory, alias `@/*`, npm), then copy the output into the repository root
     - Merge `.gitignore` (union of both files), set the package name to `health-companion`, and set `"strict": true` and the `@/*` to `src/*` alias in `tsconfig.json`
     - Add `.npmrc` with `save-exact=true`, rewrite every caret range in `package.json` to the exact installed version, and keep `package-lock.json` committed
