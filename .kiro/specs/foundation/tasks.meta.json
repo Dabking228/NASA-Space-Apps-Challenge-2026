@@ -24,6 +24,18 @@
         "chatSessionId": "sess_9864548e-42bf-437c-9bf2-692244f0e8e8",
         "timestamp": 1794676343727
       }
+    ],
+    "1.3 Initialise shadcn/ui and add the base components": [
+      {
+        "executionId": "cb7b4940-cb06-4734-adb6-81c8c6f2bf1b",
+        "chatSessionId": "sess_9864548e-42bf-437c-9bf2-692244f0e8e8",
+        "timestamp": 1794676718377
+      },
+      {
+        "executionId": "82e85f03-f61f-456d-b136-44b1b0b9d093",
+        "chatSessionId": "sess_9864548e-42bf-437c-9bf2-692244f0e8e8",
+        "timestamp": 1794677633544
+      }
     ]
   }
 }

@@ -31,7 +31,7 @@ Constraints that apply to every task:
     - Run `npm run format` once so the scaffold passes `format:check`
     - _Requirements: 8.2, 8.3, 8.4, 8.8, 8.9, 9.1, 9.7, 9.8_
 
-  - [ ] 1.3 Initialise shadcn/ui and add the base components
+  - [x] 1.3 Initialise shadcn/ui and add the base components
     - Run `npx shadcn@latest init` with `components.json` set per the design (`tailwind.css` is `src/app/globals.css`, empty `tailwind.config`, `cssVariables` true, `rsc` true, aliases to `@/components`, `@/components/ui`, `@/lib/utils`, `@/lib`)
     - Add `button`, `card`, `badge` and `tooltip` so each exists as its own file under `src/components/ui/`
     - Confirm `src/lib/utils.ts` exports `cn(...inputs: ClassValue[]): string` as `twMerge(clsx(inputs))`
