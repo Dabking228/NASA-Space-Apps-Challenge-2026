@@ -68,7 +68,7 @@ Hard rules that apply to every task:
     - Invariants: Properties 14 (operators), 16, 17, 18.
     - _Requirements: 13.4, 14.1, 14.2, 14.3, 14.4, 14.5, 14.6, 14.7, 14.8, 14.9, 14.10, 15.1, 15.2, 15.3, 15.4, 15.5, 17.2_
 
-  - [ ] 3.3 Implement `classifyBase`
+  - [-] 3.3 Implement `classifyBase`
     - Create `src/domain/rules/classify-base.ts`. Evaluate in this order: hard limits (red, then orange), sequence rules, conditional rules, context rules, and the deviation rule only when none was satisfied. The base tier is the worst satisfied tier. Hard limits and sequence rules never read `earthReference`.
     - Sequence rules: periods `k = 0..N−1` cover `(day − (k+1)·periodDays, day − k·periodDays]`, the latest reading in each period counts, all N must exist and satisfy the condition, and missing period end days go in `missingPeriods`. Support the `absolute`, `baseline-relative` and `background-multiple` conditions with an exhaustive `switch`.
     - Conditional rules need a symptom of a listed kind (or any symptom) or a safety flag on the same Mission_Day. Context rules: `allowance-fraction` written without division against `careerLimitMsv − careerDoseBeforeMissionMsv`, and `external-alert` for a solar particle event covering the day.
@@ -77,7 +77,7 @@ Hard rules that apply to every task:
     - _Requirements: 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.9, 6.4, 10.3, 13.1, 13.2, 13.3, 13.5, 13.6, 13.7, 14.4, 14.5, 16.1, 16.2, 16.3, 16.4, 17.1, 17.2_
 
 - [ ] 4. Catalog validation and lookups
-  - [ ] 4.1 Implement `validateCatalog`
+  - [-] 4.1 Implement `validateCatalog`
     - Create `src/domain/indicators/validate-catalog.ts` with `CatalogInput` and `validateCatalog(input): readonly CatalogProblem[]`. It never throws, returns every problem in one list, and returns an empty list when there are none.
     - Steps: schema pass with `safeParse` (every Zod issue becomes one problem with entry id and dotted field path, using `indicators[n]` when the id is missing and `engine-config` for the config); `invalid_value` on `system` or `hazards[i]` becomes `unknown-body-system` or `unknown-hazard` and quotes the value; `too_small` on `verification.thresholds` or `verification.mapping` becomes `missing-verification-flags`; one problem per duplicate indicator or cluster id; `limit-order` (field `hardLimits.red`); `sd-order` (field `deviation.orangeSd`, falling back to `deviationDefaults`); `unknown-indicator-ref` for cluster members, supporting members and `tierRaises.memberId`; `unapproved-source` for any source id not in `approvedSourceIds`.
     - An empty `sources` array is valid and never produces a problem. Use an exhaustive `switch` over `CatalogProblemCode` wherever a display or mapping function branches on it.
@@ -92,14 +92,14 @@ Hard rules that apply to every task:
     - _Requirements: 27.1, 27.3, 27.4, 28.1, 28.2, 28.3, 28.4, 28.5, 29.13_
 
 - [ ] 5. Clusters, confidence, findings and body systems
-  - [ ] 5.1 Implement the cluster detector
+  - [-] 5.1 Implement the cluster detector
     - Create `src/domain/rules/clusters.ts` with `DayClassifications`, `ClusterDetection` and `detectClusters(clusters, days, symptoms, asOfDay)`.
     - A member is satisfied by kind: `indicator` (classification at least `minTier` plus the direction filter `any`, `above-baseline` or `below-baseline`, TD-4 and TD-22), `baseline-relative` (a reading that day, a baseline in force, and `compare(value, {op, mean·(1+fraction)})`, with no tier gate, TD-27), and `symptom` (a listed kind on that day). Use exhaustive `switch` statements over the member kinds and directions.
     - Detect a cluster when every required member is satisfied on some day in `[asOfDay − windowDays + 1, asOfDay]`. Return at most one detection per cluster id, with the evidence of every member, the definition's window and tier, and the maximum tier over matching `tierRaises` entries. A detection never lowers a tier. Supporting members are reported separately.
     - Invariants: Properties 21, 22, 23, 24.
     - _Requirements: 18.2, 18.3, 18.4, 18.5, 18.6, 18.7, 19.1, 19.2, 19.4, 20.1, 20.2, 20.3, 21.1, 21.2, 21.3, 22.1, 22.3, 22.4, 23.1, 23.2, 23.3_
 
-  - [ ] 5.2 Implement the confidence evaluator
+  - [-] 5.2 Implement the confidence evaluator
     - Create `src/domain/rules/confidence.ts` with `ConfidenceFactors` and `evaluateConfidence(factors, cfg)`. Compute `score = start − Σ(step of each true reduction factor) + (supportingSignal ? supportBonusSteps : 0)`, clamped between low and high using `CONFIDENCE_ORDER`. Each factor counts once. A configured step of 0 is allowed.
     - Invariants: Properties 28, 29.
     - _Requirements: 17.4, 19.3, 25.1, 25.2, 25.3, 25.4, 25.5, 25.6, 25.7, 25.8, 25.9_
@@ -148,21 +148,21 @@ Hard rules that apply to every task:
     - Sleep: orange `<6` h for 3 periods, red `<4` h for 1 period and `<5` h for 5 periods, flags B and C. Mood: orange `≤2` for 3 periods, conditional red `≤1` with a safety flag, flag B, `validRange` 1 to 5. WHO-5: orange `<50`, red `≤28`, flag A, `periodDays: 7`, `validRange` 0 to 100. Reaction time: orange baseline-relative `≥ +25%` for 2 periods, no red rule, flags B and C, deviation direction `high`, floor `null`, `periodDays: 1` marked `proposed-default` (TD-17). Sleep and mood have deviation settings with a `null` floor (TD-11, TD-12).
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 3.2, 3.4, 3.5, 16.3_
 
-  - [-] 8.4 Create the nutrition and musculoskeletal indicator drafts
+  - [x] 8.4 Create the nutrition and musculoskeletal indicator drafts
     - Create `src/data/indicators/nutrition-msk.ts` with drafts `body-mass-change-30d`, `energy-intake` and `exercise-adherence`, each `satisfies IndicatorDraft`, with `sources: []`.
     - Body mass change: percentage loss, orange `≥5`, red `≥10`, flag A, supplied by the caller. Energy intake: orange `<70` for 3 periods, flags B and C. Exercise adherence: orange `<50` for 2 periods, flags B and C, `periodDays: 7`. Body mass change and energy intake have deviation settings with a `null` floor (TD-11, TD-12).
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 3.2, 3.4, 3.5_
 
-  - [-] 8.5 Create the radiation and habitat indicator drafts
+  - [x] 8.5 Create the radiation and habitat indicator drafts
     - Create `src/data/indicators/radiation.ts` with drafts `career-effective-dose` and `dose-rate`, and `src/data/indicators/habitat.ts` with draft `cabin-co2`, each `satisfies IndicatorDraft`, with `sources: []`.
     - Career dose: `careerLimitMsv: 600`, flag C, context rules orange at `0.8` of the remaining allowance and red above it; the projected dose is the reading value. Dose rate: orange `> 5×` background for 2 periods (`proposed-default`, TD-14), red `> 20×` background for 1 period, context red for a solar particle event, flags B and C. Cabin CO₂: orange `≥5`, red `≥10` marked as proposed operators (TD-16), flag C, with deviation settings and a `null` floor (TD-11, TD-12).
     - _Requirements: 7.1, 7.2, 7.3, 7.5, 7.6, 7.7, 7.8, 8.1, 8.2, 3.2, 3.5_
 
-  - [-] 8.6 Create the indicator mapping
+  - [x] 8.6 Create the indicator mapping
     - Create `src/data/indicators/mapping.ts` with the proposed hazard and body-system table from the design (TD-15), typed `satisfies Record<string, { hazards: readonly Hazard[]; system: BodySystem }>` and with `verification.mapping` set to `['C']` for every entry. Every indicator id from tasks 8.2 to 8.5 has an entry.
     - _Requirements: 27.1, 27.2, 3.7_
 
-  - [-] 8.7 Create the cluster definitions
+  - [x] 8.7 Create the cluster definitions
     - Create `src/data/clusters.ts` with `fatigue-stress` (5 days, `project-doc`, supporting `reaction-time`), `possible-infection`, `under-fuelling`, `possible-co2-exposure` and `vision-change`, each `satisfies ClusterDefinition` with `sources: []`. Use windows of 5 days marked `proposed-default` where PROJECT.md is silent (TD-13), flag B on the first four and C on vision change (TD-23). Under-fuelling uses the directions in TD-22. Vision change has `tierRaises` for `sudden-vision-loss` to red.
     - The CO₂ cluster uses a `baseline-relative` member for cabin CO₂ (`gt`, fraction 0) and one for reaction time (`gte`, fraction 0.25). Add a comment on both marking them as team decision TD-27, accepted by the user, so the team can revisit them.
     - _Requirements: 18.1, 18.5, 19.1, 20.1, 21.1, 22.1, 22.4, 23.1, 23.2, 23.4, 3.5_
