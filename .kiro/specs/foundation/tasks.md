@@ -52,14 +52,14 @@ Constraints that apply to every task:
     - No other file may declare a separate tier type with these values
     - _Requirements: 3.7, 4.2, 6.4_
 
-  - [-] 2.2 Define the status design tokens in `globals.css`
+  - [x] 2.2 Define the status design tokens in `globals.css`
     - Add `--status-{green,yellow,orange,red}` and `--status-{green,yellow,orange,red}-foreground` to both `:root` and `.dark`, using the OKLCH starting values from the design
     - Add the eight `--color-status-*` mappings in `@theme inline` so `bg-status-*`, `text-status-*` and `text-status-*-foreground` resolve
     - Check the contrast of all eight pairs manually, as described in the design (section 2, "Contrast check"), and adjust any value whose WCAG 2.1 contrast is below 4.5:1 in either value set
     - Do not add a theme toggle
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 2.5_
 
-  - [ ] 2.3 Implement the `TierBadge` component
+  - [-] 2.3 Implement the `TierBadge` component
     - Create `src/components/tier-badge.tsx` on top of the shadcn `Badge` with `Record<Tier, { label; Icon; className }>`
     - Labels: "Normal for you", "Drifting", "Concerning", "Act now". Icons: `CircleCheck`, `Eye`, `TriangleAlert`, `OctagonAlert` (all distinct). Mark icons `aria-hidden`
     - Write the class names as full literal strings using `bg-status-<tier>` and `text-status-<tier>-foreground`
