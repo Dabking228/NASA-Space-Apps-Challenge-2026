@@ -91,7 +91,7 @@ Hard rules that apply to every task:
     - Invariants: Properties 31, 32.
     - _Requirements: 27.1, 27.3, 27.4, 28.1, 28.2, 28.3, 28.4, 28.5, 29.13_
 
-- [ ] 5. Clusters, confidence, findings and body systems
+- [x] 5. Clusters, confidence, findings and body systems
   - [x] 5.1 Implement the cluster detector
     - Create `src/domain/rules/clusters.ts` with `DayClassifications`, `ClusterDetection` and `detectClusters(clusters, days, symptoms, asOfDay)`.
     - A member is satisfied by kind: `indicator` (classification at least `minTier` plus the direction filter `any`, `above-baseline` or `below-baseline`, TD-4 and TD-22), `baseline-relative` (a reading that day, a baseline in force, and `compare(value, {op, mean·(1+fraction)})`, with no tier gate, TD-27), and `symptom` (a listed kind on that day). Use exhaustive `switch` statements over the member kinds and directions.
@@ -104,13 +104,13 @@ Hard rules that apply to every task:
     - Invariants: Properties 28, 29.
     - _Requirements: 17.4, 19.3, 25.1, 25.2, 25.3, 25.4, 25.5, 25.6, 25.7, 25.8, 25.9_
 
-  - [-] 5.3 Implement finding text rendering and the finding builder
+  - [x] 5.3 Implement finding text rendering and the finding builder
     - Create `src/domain/rules/text.ts` with the `FindingText` interface (`indicatorReason`, `clusterReason`, `opWords`, `ruleSentences`, `tierSteps`, `clusterSteps`) and `renderTemplate`, which returns an `invalid-input` error for an unknown placeholder. Use an exhaustive `switch` over the comparison operators when choosing a word.
     - Create `src/domain/rules/findings.ts` with `buildFindings`. Produce one indicator finding per classification at yellow, orange or red and one cluster finding per detection. Use deterministic ids (`indicator:<id>:<day>`, `cluster:<id>:<day>`). The reason names every contributing indicator label, its value with unit, and a sentence per rule hit. The action is numbered steps, cluster steps first (the possible-CO₂-exposure cluster starts with the environment check), then the tier steps from PROJECT.md section 8. `sourceIds` is the sorted, de-duplicated union of the contributors' source ids and is empty when all are empty (TD-6). `indicators` is the sorted list of contributing ids. Derive the confidence factors here (missing data, poor quality, single signal, supporting signal). If a template fails to render, fall back to a plain reason that lists indicator, value and rule, and report the error.
     - Invariants: Properties 26, 27.
     - _Requirements: 22.2, 24.1, 24.2, 24.3, 24.4, 24.5, 24.6, 24.7, 24.8, 24.9, 24.10, 25.1_
 
-  - [-] 5.4 Implement body-system aggregation
+  - [x] 5.4 Implement body-system aggregation
     - Create `src/domain/rules/body-systems.ts` with the `SystemStatus` discriminated union (`no-data` and `classified`) and `aggregateBodySystems(catalog, classifications, findings)`. For each system in `BODY_SYSTEM_ORDER`, take the worst tier of its indicators that have data, raise it to the tier of a cluster finding that names the system (never lower, TD-5), and report `no-data` when there is neither indicator data nor a cluster finding. List contributing indicator ids and the ids of findings above green. Ignore `no-data` indicators.
     - Invariants: Property 30.
     - _Requirements: 17.3, 26.1, 26.2, 26.3, 26.4, 26.5_
@@ -119,7 +119,7 @@ Hard rules that apply to every task:
   - Run `npm run check` and fix every failure. Ensure all checks pass, ask the user if questions arise.
 
 - [ ] 7. Evaluation orchestrator
-  - [ ] 7.1 Implement input preparation for the replay
+  - [-] 7.1 Implement input preparation for the replay
     - Create `src/domain/evaluate-input.ts` as a helper for `evaluate.ts`. Define `EvaluationInput`, `DayState` and `EvaluationResult` exactly as in the design, with `readonly` fields and arrays.
     - Add a function that prepares input: drops records of other astronauts and records after `asOfDay`; validates records with `safeParse` and reports `invalid-input`; reports `unknown-indicator` and `value-out-of-range` (against `validRange`) and ignores those readings; reports `duplicate-reading` and keeps one reading by the fixed order good quality first, then lower value (TD-24); and returns copies sorted by a total order (readings by day, indicator id, quality, value; symptoms by day, kind; safety flags by day; alerts by start day, end day). Sort copies only, never in place.
     - Invariants: Properties 2, 13, 25.
@@ -167,7 +167,7 @@ Hard rules that apply to every task:
     - The CO₂ cluster uses a `baseline-relative` member for cabin CO₂ (`gt`, fraction 0) and one for reaction time (`gte`, fraction 0.25). Add a comment on both marking them as team decision TD-27, accepted by the user, so the team can revisit them.
     - _Requirements: 18.1, 18.5, 19.1, 20.1, 21.1, 22.1, 22.4, 23.1, 23.2, 23.4, 3.5_
 
-  - [ ] 8.8 Create the finding text
+  - [-] 8.8 Create the finding text
     - Create `src/data/finding-text.ts` typed `satisfies FindingText`. Provide the reason templates, `opWords`, one rule sentence per rule kind, `tierSteps` for yellow, orange and red (self-management and watch the trend; guided assessment and prepare a message to ground; immediate steps and urgent escalation, from PROJECT.md section 8), and `clusterSteps` by cluster id. The CO₂ cluster's first step is to check the environment. Include no medication, dosing or treatment advice. Use plain language suitable for non-experts.
     - _Requirements: 22.2, 24.2, 24.6, 24.8_
 
