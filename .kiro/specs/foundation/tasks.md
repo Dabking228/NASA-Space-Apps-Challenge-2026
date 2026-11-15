@@ -45,7 +45,7 @@ Constraints that apply to every task:
     - Confirm `package.json` versions are exact (no `^` or `~`) and match `package-lock.json`
     - _Requirements: 1.7, 6.1_
 
-- [ ] 2. Tier type, design tokens and TierBadge
+- [x] 2. Tier type, design tokens and TierBadge
   - [x] 2.1 Create the `Tier` type and its Zod schema
     - Create `src/domain/types.ts` containing only `export type Tier = 'green' | 'yellow' | 'orange' | 'red';`
     - Create `src/domain/tier-schema.ts` with `TierSchema = z.enum([...])` and the compile-time `Equal<SchemaTier, Tier>` guard, which `npm run typecheck` checks
@@ -59,7 +59,7 @@ Constraints that apply to every task:
     - Do not add a theme toggle
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 2.5_
 
-  - [-] 2.3 Implement the `TierBadge` component
+  - [x] 2.3 Implement the `TierBadge` component
     - Create `src/components/tier-badge.tsx` on top of the shadcn `Badge` with `Record<Tier, { label; Icon; className }>`
     - Labels: "Normal for you", "Drifting", "Concerning", "Act now". Icons: `CircleCheck`, `Eye`, `TriangleAlert`, `OctagonAlert` (all distinct). Mark icons `aria-hidden`
     - Write the class names as full literal strings using `bg-status-<tier>` and `text-status-<tier>-foreground`
