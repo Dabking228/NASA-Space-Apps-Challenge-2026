@@ -76,7 +76,7 @@ Hard rules that apply to every task:
     - Invariants: Properties 6, 14, 15, 19, 20, 33, 34.
     - _Requirements: 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.9, 6.4, 10.3, 13.1, 13.2, 13.3, 13.5, 13.6, 13.7, 14.4, 14.5, 16.1, 16.2, 16.3, 16.4, 17.1, 17.2_
 
-- [ ] 4. Catalog validation and lookups
+- [x] 4. Catalog validation and lookups
   - [x] 4.1 Implement `validateCatalog`
     - Create `src/domain/indicators/validate-catalog.ts` with `CatalogInput` and `validateCatalog(input): readonly CatalogProblem[]`. It never throws, returns every problem in one list, and returns an empty list when there are none.
     - Steps: schema pass with `safeParse` (every Zod issue becomes one problem with entry id and dotted field path, using `indicators[n]` when the id is missing and `engine-config` for the config); `invalid_value` on `system` or `hazards[i]` becomes `unknown-body-system` or `unknown-hazard` and quotes the value; `too_small` on `verification.thresholds` or `verification.mapping` becomes `missing-verification-flags`; one problem per duplicate indicator or cluster id; `limit-order` (field `hardLimits.red`); `sd-order` (field `deviation.orangeSd`, falling back to `deviationDefaults`); `unknown-indicator-ref` for cluster members, supporting members and `tierRaises.memberId`; `unapproved-source` for any source id not in `approvedSourceIds`.
@@ -85,7 +85,7 @@ Hard rules that apply to every task:
     - Invariants: Properties 3, 35.
     - _Requirements: 3.6, 3.7, 3.8, 27.1, 29.4, 29.6, 29.7, 29.8, 29.9, 29.10, 29.11, 29.12, 29.13, 29.14_
 
-  - [-] 4.2 Implement `buildCatalog`, hazard and system lookups, and the verification checker
+  - [x] 4.2 Implement `buildCatalog`, hazard and system lookups, and the verification checker
     - Create `src/domain/indicators/build-catalog.ts` with `Catalog`, `IndicatorMapping`, `buildCatalog` and the lookups `indicatorsForHazard` and `indicatorsForSystem`. `buildCatalog` merges each draft with its mapping entry, reports `missing-mapping` for a draft without one, calls `validateCatalog`, and returns `ok: false` with every problem or the parsed values. It is the only way to obtain a `Catalog`.
     - Create `src/domain/indicators/verification.ts` with `findUnverifiedIndicators` (`sources.length === 0`), `unverifiedForFinding` and `findPendingFloors` (`minAbsoluteChange === null`). None of them throws or signals failure (TD-10).
     - Invariants: Properties 31, 32.
@@ -104,13 +104,13 @@ Hard rules that apply to every task:
     - Invariants: Properties 28, 29.
     - _Requirements: 17.4, 19.3, 25.1, 25.2, 25.3, 25.4, 25.5, 25.6, 25.7, 25.8, 25.9_
 
-  - [ ] 5.3 Implement finding text rendering and the finding builder
+  - [-] 5.3 Implement finding text rendering and the finding builder
     - Create `src/domain/rules/text.ts` with the `FindingText` interface (`indicatorReason`, `clusterReason`, `opWords`, `ruleSentences`, `tierSteps`, `clusterSteps`) and `renderTemplate`, which returns an `invalid-input` error for an unknown placeholder. Use an exhaustive `switch` over the comparison operators when choosing a word.
     - Create `src/domain/rules/findings.ts` with `buildFindings`. Produce one indicator finding per classification at yellow, orange or red and one cluster finding per detection. Use deterministic ids (`indicator:<id>:<day>`, `cluster:<id>:<day>`). The reason names every contributing indicator label, its value with unit, and a sentence per rule hit. The action is numbered steps, cluster steps first (the possible-CO₂-exposure cluster starts with the environment check), then the tier steps from PROJECT.md section 8. `sourceIds` is the sorted, de-duplicated union of the contributors' source ids and is empty when all are empty (TD-6). `indicators` is the sorted list of contributing ids. Derive the confidence factors here (missing data, poor quality, single signal, supporting signal). If a template fails to render, fall back to a plain reason that lists indicator, value and rule, and report the error.
     - Invariants: Properties 26, 27.
     - _Requirements: 22.2, 24.1, 24.2, 24.3, 24.4, 24.5, 24.6, 24.7, 24.8, 24.9, 24.10, 25.1_
 
-  - [ ] 5.4 Implement body-system aggregation
+  - [-] 5.4 Implement body-system aggregation
     - Create `src/domain/rules/body-systems.ts` with the `SystemStatus` discriminated union (`no-data` and `classified`) and `aggregateBodySystems(catalog, classifications, findings)`. For each system in `BODY_SYSTEM_ORDER`, take the worst tier of its indicators that have data, raise it to the tier of a cluster finding that names the system (never lower, TD-5), and report `no-data` when there is neither indicator data nor a cluster finding. List contributing indicator ids and the ids of findings above green. Ignore `no-data` indicators.
     - Invariants: Property 30.
     - _Requirements: 17.3, 26.1, 26.2, 26.3, 26.4, 26.5_
