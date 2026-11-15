@@ -36,6 +36,34 @@
         "chatSessionId": "sess_9864548e-42bf-437c-9bf2-692244f0e8e8",
         "timestamp": 1794677633544
       }
+    ],
+    "1.4 Install runtime libraries and test dependencies": [
+      {
+        "executionId": "57ec16ea-92cd-46b5-9ffb-b294a6ada557",
+        "chatSessionId": "sess_9864548e-42bf-437c-9bf2-692244f0e8e8",
+        "timestamp": 1794677687620
+      }
+    ],
+    "1.4 Install the lint plugin and confirm runtime libraries": [
+      {
+        "executionId": "73f26ef2-9e26-4497-a475-02d39ba2e300",
+        "chatSessionId": "sess_9864548e-42bf-437c-9bf2-692244f0e8e8",
+        "timestamp": 1794716488135
+      }
+    ],
+    "1. Scaffold the project and base tooling": [
+      {
+        "executionId": "73f26ef2-9e26-4497-a475-02d39ba2e300",
+        "chatSessionId": "sess_9864548e-42bf-437c-9bf2-692244f0e8e8",
+        "timestamp": 1794716488196
+      }
+    ],
+    "2.1 Create the `Tier` type and its Zod schema": [
+      {
+        "executionId": "73f26ef2-9e26-4497-a475-02d39ba2e300",
+        "chatSessionId": "sess_9864548e-42bf-437c-9bf2-692244f0e8e8",
+        "timestamp": 1794716503127
+      }
     ]
   }
 }

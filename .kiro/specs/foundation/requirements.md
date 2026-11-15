@@ -2,9 +2,11 @@
 
 ## Introduction
 
-This spec covers build step 1 of the Astronaut Health Companion (docs/PROJECT.md, sections 14 and 15.2). It scaffolds the project so later specs (domain-engine, simulation, dashboard-body-map and others) can build on a working, consistent base. It delivers the Next.js and TypeScript project, styling and component tooling, test and quality tooling, runtime libraries, the folder structure from section 13.4, design tokens including the status-tier colours, and the persistent steering files.
+This spec covers build step 1 of the Astronaut Health Companion (docs/PROJECT.md, sections 14 and 15.2). It scaffolds the project so later specs (domain-engine, simulation, dashboard-body-map and others) can build on a working, consistent base. It delivers the Next.js and TypeScript project, styling and component tooling, quality tooling (lint, format and type check), runtime libraries, the folder structure from section 13.4, design tokens including the status-tier colours, and the persistent steering files.
 
 This spec delivers no health logic, no simulation data, no thresholds, and no feature screens beyond a minimal placeholder page. Decisions D3 (no hand-written CSS), D4 (framework-free domain and simulation), D5 (no offline/PWA), and D7 (no ML) apply. The prototype has no backend.
+
+Revision note: by user decision the Project is Next.js only and has no automated test runner. This spec was revised once by user request to remove Vite, Vitest and all automated tests. Requirement 7 (Testing with Vitest) was removed, and its number is intentionally left unused so that cross-references in design.md and tasks.md stay correct. Requirements that were verified only by an automated test are now verified by lint, type check, build, or the manual steps listed in the design.
 
 ## Glossary
 
@@ -15,7 +17,7 @@ This spec delivers no health logic, no simulation data, no thresholds, and no fe
 - **Status_Token**: A Design_Token for a tier colour. The four names are `status-green`, `status-yellow`, `status-orange`, and `status-red`.
 - **Framework_Free_Layer**: The `src/domain/` and `src/simulation/` directories, which hold pure TypeScript.
 - **Steering_Files**: The persistent agent context files `product.md`, `tech.md`, and `structure.md` in `.kiro/steering/`.
-- **Quality_Gate**: The set of commands `lint`, `format:check`, `typecheck`, `test`, and `build` defined in `package.json`.
+- **Quality_Gate**: The set of commands `lint`, `format:check`, `typecheck`, and `build` defined in `package.json`.
 - **Placeholder_Page**: The minimal home page at the root route that confirms the Scaffold renders.
 - **Disclaimer_Notice**: The text stating the Project is decision support, not a diagnostic device, and uses synthetic data and draft thresholds.
 - **Master_Document**: `docs/PROJECT.md`.
@@ -93,7 +95,6 @@ This spec delivers no health logic, no simulation data, no thresholds, and no fe
 3. IF a TypeScript file under `src/` outside `src/lib/` calls `Math.random`, THEN THE lint check SHALL exit with a non-zero status and report at least one error that names the file path, the line number of the call, and the violated rule.
 4. IF a TypeScript file under `src/` uses the explicit type `any` in a type annotation, type argument, or type assertion, THEN THE lint check SHALL exit with a non-zero status and report at least one error that names the file path, the line number, and the violated rule.
 5. WHEN the lint check runs on files under `src/` that contain none of the violations described in criteria 1 to 4, THE lint check SHALL report zero errors for those rules and exit with status 0.
-6. THE Scaffold SHALL include a sample test that imports the `Tier` type from `src/domain/types.ts`, runs under Vitest with the `node` environment (no `window` or `document` global defined), and passes when Vitest is run in single-run mode.
 
 ### Requirement 6: Runtime libraries
 
@@ -104,25 +105,10 @@ This spec delivers no health logic, no simulation data, no thresholds, and no fe
 1. WHEN the Scaffold is installed with a clean dependency install, THE Scaffold SHALL list Zod, Zustand, and Recharts under runtime dependencies (not development dependencies) at the latest stable release published on the package registry on the install date, and the install SHALL complete with exit code 0.
 2. THE Scaffold SHALL provide one example Zustand store in `src/store/` that holds a single numeric counter with an initial value of 0 and increment and reset actions.
 3. THE example Zustand store SHALL be imported only by files that begin with the `"use client"` directive.
-4. THE Scaffold SHALL provide a Zod schema in `src/domain/` for the `Tier` values, with an automated test that accepts each of the four tier values defined in `docs/PROJECT.md` and rejects at least these inputs: an empty string, a string differing from a valid tier only by letter case, a string with leading or trailing whitespace, `null`, `undefined`, and a number.
+4. THE Scaffold SHALL provide a Zod schema in `src/domain/` for the `Tier` values that accepts each of the four tier values defined in `docs/PROJECT.md` and rejects at least these inputs: an empty string, a string differing from a valid tier only by letter case, a string with leading or trailing whitespace, `null`, `undefined`, and a number.
 5. WHEN a developer opens the development-only check route in the development server, THE Scaffold SHALL render exactly one Recharts chart containing exactly 5 hard-coded sample data points, with no network requests for chart data, and the page SHALL log zero console errors.
 6. IF the Recharts chart on the check route fails to render, THEN THE Scaffold SHALL display a visible error message on the route in place of the chart.
 7. WHEN a production build runs, THE Scaffold SHALL complete the build with exit code 0, and the development-only check route SHALL be absent from the build output and SHALL return a not-found response when requested from the production server.
-
-### Requirement 7: Testing with Vitest
-
-**User Story:** As a developer, I want Vitest configured, so that every domain function can ship with tests.
-
-#### Acceptance Criteria
-
-1. THE Scaffold SHALL configure Vitest so that a test file written in TypeScript runs without a separate compile step and a test file importing a module through the `@/*` path alias resolves to the same module as the application code does.
-2. THE Scaffold SHALL define a `test` script in `package.json` that runs all tests once, does not enter watch mode, and exits with code 0 when all tests pass and a non-zero code when one or more tests fail.
-3. THE Scaffold SHALL define a `test:watch` script in `package.json` that runs Vitest in watch mode and is a separate script from `test`.
-4. WHEN the `test` script runs on the Scaffold, THE Scaffold SHALL report every sample test as passing, report 0 failed tests, report 0 skipped tests, and complete within 30 seconds.
-5. THE Scaffold SHALL list `fast-check` under `devDependencies` in `package.json` and SHALL NOT list it under `dependencies`.
-6. THE Scaffold SHALL include at least one sample property-based test, written with `fast-check`, that runs at least 100 generated cases and asserts that the Zod tier schema accepts each of the four defined tier values.
-7. THE Scaffold SHALL include in the sample property-based test an assertion that the Zod tier schema rejects every generated string that is not one of the four defined tier values.
-8. IF a sample test fails when the `test` script runs, THEN THE Scaffold SHALL print the name of the failing test and the failure reason, and SHALL exit with a non-zero code.
 
 ### Requirement 8: Linting and formatting
 
@@ -146,15 +132,14 @@ This spec delivers no health logic, no simulation data, no thresholds, and no fe
 
 #### Acceptance Criteria
 
-1. THE Scaffold SHALL define `dev`, `build`, `start`, `lint`, `format`, `format:check`, `typecheck`, `test`, `test:watch`, and `check` scripts in `package.json`, each of which is a non-empty command string.
+1. THE Scaffold SHALL define `dev`, `build`, `start`, `lint`, `format`, `format:check`, `typecheck`, and `check` scripts in `package.json`, each of which is a non-empty command string.
 2. WHEN the `typecheck` script runs on the Scaffold, THE Scaffold SHALL report zero TypeScript errors and exit with code 0.
 3. WHEN the `build` script runs on the Scaffold, THE Scaffold SHALL complete a production build with zero errors and exit with code 0.
 4. WHEN the `lint` script runs on the Scaffold, THE Scaffold SHALL report zero lint errors and exit with code 0.
 5. WHEN the `format:check` script runs on the Scaffold, THE Scaffold SHALL report zero files that do not conform to the configured formatting rules and exit with code 0.
-6. WHEN the `test` script runs on the Scaffold, THE Scaffold SHALL execute the test suite once without entering watch mode, report zero failing tests, and exit with code 0.
-7. WHEN the `check` script runs, THE Scaffold SHALL run `lint`, `format:check`, `typecheck`, and `test` in that order, one at a time.
-8. IF any script run by `check` exits with a non-zero code, THEN THE Scaffold SHALL skip the remaining scripts, and `check` SHALL exit with a non-zero code.
-9. THE Scaffold SHALL document each script defined in criterion 1 in the repository `README.md`, with one entry per script that states the script name and a purpose description of 1 to 200 characters.
+6. WHEN the `check` script runs, THE Scaffold SHALL run `lint`, `format:check`, and `typecheck` in that order, one at a time.
+7. IF any script run by `check` exits with a non-zero code, THEN THE Scaffold SHALL skip the remaining scripts, and `check` SHALL exit with a non-zero code.
+8. THE Scaffold SHALL document each script defined in criterion 1 in the repository `README.md`, with one entry per script that states the script name and a purpose description of 1 to 200 characters.
 
 ### Requirement 10: Excluded technology
 
@@ -167,7 +152,6 @@ This spec delivers no health logic, no simulation data, no thresholds, and no fe
 3. THE Scaffold SHALL contain zero machine-learning library packages in the dependency list of `package.json` and zero imports of such libraries in the source tree.
 4. THE Scaffold SHALL contain zero stylesheet files other than the Global_Tokens_File and zero CSS-in-JS library packages in the dependency list of `package.json`.
 5. THE Scaffold SHALL contain zero `style` attributes in component source files, except a `style` attribute whose value is computed at runtime and that has a code comment on the line immediately above it stating why the value is dynamic.
-6. IF a package, file, or `style` attribute prohibited by criteria 1 to 5 is found in the Scaffold, THEN THE Scaffold verification check SHALL fail with a non-zero exit status and report the path or package name of each violation.
 
 ### Requirement 11: Steering files
 
