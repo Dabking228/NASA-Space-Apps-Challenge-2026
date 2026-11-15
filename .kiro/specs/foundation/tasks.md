@@ -46,13 +46,13 @@ Constraints that apply to every task:
     - _Requirements: 1.7, 6.1_
 
 - [ ] 2. Tier type, design tokens and TierBadge
-  - [-] 2.1 Create the `Tier` type and its Zod schema
+  - [x] 2.1 Create the `Tier` type and its Zod schema
     - Create `src/domain/types.ts` containing only `export type Tier = 'green' | 'yellow' | 'orange' | 'red';`
     - Create `src/domain/tier-schema.ts` with `TierSchema = z.enum([...])` and the compile-time `Equal<SchemaTier, Tier>` guard, which `npm run typecheck` checks
     - No other file may declare a separate tier type with these values
     - _Requirements: 3.7, 4.2, 6.4_
 
-  - [ ] 2.2 Define the status design tokens in `globals.css`
+  - [-] 2.2 Define the status design tokens in `globals.css`
     - Add `--status-{green,yellow,orange,red}` and `--status-{green,yellow,orange,red}-foreground` to both `:root` and `.dark`, using the OKLCH starting values from the design
     - Add the eight `--color-status-*` mappings in `@theme inline` so `bg-status-*`, `text-status-*` and `text-status-*-foreground` resolve
     - Check the contrast of all eight pairs manually, as described in the design (section 2, "Contrast check"), and adjust any value whose WCAG 2.1 contrast is below 4.5:1 in either value set
