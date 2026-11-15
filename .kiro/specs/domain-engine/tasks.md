@@ -24,26 +24,26 @@ Hard rules that apply to every task:
     - Reuse the existing `TierSchema` from `src/domain/tier-schema.ts` and the `Tier` type from `src/domain/types.ts` without redefining them.
     - _Requirements: 1.1, 1.2, 9.1, 9.3, 9.4, 10.1, 10.2, 10.4, 10.6, 2.1, 2.5_
 
-  - [-] 1.2 Create the indicator definition and engine config schemas
+  - [x] 1.2 Create the indicator definition and engine config schemas
     - Create `src/domain/schemas/indicator.ts` with `ComparisonSchema`, `SequenceConditionSchema`, `SequenceRuleSchema`, `ConditionalRuleSchema`, `ContextRuleSchema`, `DeviationSettingsSchema` (`minAbsoluteChange` nullable, `direction` default `both`), `IndicatorDefinitionSchema`, and the `IndicatorDraft` type (the definition without `hazards`, `system` and `verification.mapping`). Keep `sources` as an array that may be empty, `verification.thresholds` and `verification.mapping` as arrays with at least one flag, and `earthReference` as informational data only.
     - Create `src/domain/schemas/config.ts` with `EngineConfigSchema` (`deviationDefaults`, `baseline`, `freeze`, `persistence`, `confidence`) as in the design.
     - Export the inferred types: `IndicatorDefinition`, `IndicatorDraft`, `Comparison`, `EngineConfig`, and the config sub-types needed by later tasks (`BaselineConfig`, `PersistenceConfig`, `ConfidenceConfig`, `ResolvedDeviation`).
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.7, 3.9, 10.1, 10.2, 10.4, 29.4_
 
-  - [-] 1.3 Create the cluster, finding and catalog-problem schemas
+  - [x] 1.3 Create the cluster, finding and catalog-problem schemas
     - Create `src/domain/schemas/cluster.ts` with `ClusterMemberSchema` (kinds `indicator`, `baseline-relative`, `symptom`) and `ClusterDefinitionSchema` (`windowDays`, `windowSource`, `tier`, `system`, `members`, `supporting`, `tierRaises`, `verification`, `sources`).
     - Create `src/domain/schemas/finding.ts` with `FindingSchema` (`id`, `kind`, `clusterId?`, `day`, `tier`, `reason`, `confidence`, `action`, `sourceIds` that may be empty, `indicators`, `system`).
     - Create `src/domain/schemas/catalog-problem.ts` with `CatalogProblemCodeSchema` and `CatalogProblemSchema`. Every field is a string so the value survives a JSON round trip.
     - Export the inferred types `ClusterDefinition`, `ClusterMember`, `Finding`, `CatalogProblem` and `CatalogProblemCode`.
     - _Requirements: 10.1, 10.4, 18.1, 24.1, 24.9, 24.10, 29.4, 29.14_
 
-  - [-] 1.4 Create tier helpers and the `Result` type
+  - [x] 1.4 Create tier helpers and the `Result` type
     - Create `src/domain/tiers.ts` with `TIER_ORDER` and `CONFIDENCE_ORDER` (`as const satisfies`), `compareTiers`, `maxTier`, and `worstTier(tiers: readonly [Tier, ...Tier[]])`. The order is green < yellow < orange < red and low < medium < high.
     - Create `src/domain/result.ts` with `Result<T, E>` and the `DomainError` union (`unknown-indicator`, `baseline-unavailable`, `duplicate-reading`, `value-out-of-range`, `invalid-input`), each with a `message` that names the offending id or field.
     - Invariants: Property 1 (worst tier).
     - _Requirements: 1.3, 1.4, 1.5, 1.6, 10.3, 10.6, 2.3_
 
-  - [ ] 1.5 Re-export types and add compile-time type assertions
+  - [-] 1.5 Re-export types and add compile-time type assertions
     - Update `src/domain/types.ts` to keep the existing `Tier` declaration and add `export type { ... } from './schemas/...'` for every other exported type (Verification_Flag, Confidence, Hazard, Body_System, Source_Reference, Reading, Symptom_Report, Indicator_Definition, Finding, Environment_Profile and the rest from tasks 1.1 to 1.3).
     - Create `src/domain/type-guards.ts` with `Equal<A, B>`, `Expect<T extends true>`, and one exported assertion alias per exported type against its `z.infer` type. Add `TierMatchesSchema`, `TierOrderIsComplete`, `ConfidenceOrderIsComplete` and `BodySystemOrderIsComplete`. The file contains types only and no runtime code.
     - _Requirements: 1.1, 1.2, 1.3, 10.4, 29.2, 29.3_
