@@ -48,7 +48,7 @@ Hard rules that apply to every task:
     - Create `src/domain/type-guards.ts` with `Equal<A, B>`, `Expect<T extends true>`, and one exported assertion alias per exported type against its `z.infer` type. Add `TierMatchesSchema`, `TierOrderIsComplete`, `ConfidenceOrderIsComplete` and `BodySystemOrderIsComplete`. The file contains types only and no runtime code.
     - _Requirements: 1.1, 1.2, 1.3, 10.4, 29.2, 29.3_
 
-- [-] 2. Checkpoint - Foundation compiles
+- [x] 2. Checkpoint - Foundation compiles
   - Run `npm run check` (lint, format:check, typecheck) and fix every failure. Ensure all checks pass, ask the user if questions arise.
 
 - [x] 3. Baseline and classification
@@ -115,7 +115,7 @@ Hard rules that apply to every task:
     - Invariants: Property 30.
     - _Requirements: 17.3, 26.1, 26.2, 26.3, 26.4, 26.5_
 
-- [ ] 6. Checkpoint - Engine pieces compile
+- [x] 6. Checkpoint - Engine pieces compile
   - Run `npm run check` and fix every failure. Ensure all checks pass, ask the user if questions arise.
 
 - [x] 7. Evaluation orchestrator
@@ -175,7 +175,7 @@ Hard rules that apply to every task:
     - Create `src/data/indicators/index.ts` that collects the drafts from tasks 8.2 to 8.5, calls `buildCatalog` once at module load with the mapping, clusters, engine config and `approvedSourceIds`, and exports `defaultCatalog`. On `ok: false`, throw an error whose message lists every problem with entry id and field path, so invalid shipped data stops the dev server and the build. Do not add an unverified-indicator check that fails the build (TD-10).
     - _Requirements: 3.1, 3.6, 28.5, 29.4, 29.13_
 
-- [ ] 9. Final checkpoint - Run `npm run check` and `npm run build`
+- [x] 9. Final checkpoint - Run `npm run check` and `npm run build`
   - Run `npm run check` (lint, format:check, typecheck), then `npm run build`, and fix every failure. Confirm that `package.json` gained no dependency or script, that no test file or test runner exists, that `src/domain/` contains no import from `src/data/`, no `any`, no `Math.random` and no `Date.now`, and that every `sources` array is empty. Ensure all checks pass, ask the user if questions arise.
 
 ## Notes
