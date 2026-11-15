@@ -67,6 +67,94 @@
         "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
         "timestamp": 1794724740040
       }
+    ],
+    "3.1 Implement baseline statistics and `computeBaseline`": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794724824032
+      },
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725236501
+      }
+    ],
+    "3.2 Implement comparison, deviation and persistence rules": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794724824519
+      },
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725236831
+      }
+    ],
+    "8.1 Create the engine config and approved source list": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794724824679
+      },
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725237467
+      }
+    ],
+    "8.2 Create the vitals indicator drafts": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794724824913
+      },
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725238689
+      }
+    ],
+    "8.3 Create the sleep and behavioural-health indicator drafts": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794724825415
+      },
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725238916
+      }
+    ],
+    "8.4 Create the nutrition and musculoskeletal indicator drafts": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725252243
+      }
+    ],
+    "8.5 Create the radiation and habitat indicator drafts": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725252561
+      }
+    ],
+    "8.6 Create the indicator mapping": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725253007
+      }
+    ],
+    "8.7 Create the cluster definitions": [
+      {
+        "executionId": "98b119e9-77cc-4b4e-9bd0-6e00de609296",
+        "chatSessionId": "sess_440ecfc5-ede4-4309-8da6-83bf248b024b",
+        "timestamp": 1794725253560
+      }
     ]
   }
 }

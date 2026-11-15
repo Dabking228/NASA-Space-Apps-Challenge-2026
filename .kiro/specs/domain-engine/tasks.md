@@ -52,14 +52,14 @@ Hard rules that apply to every task:
   - Run `npm run check` (lint, format:check, typecheck) and fix every failure. Ensure all checks pass, ask the user if questions arise.
 
 - [ ] 3. Baseline and classification
-  - [ ] 3.1 Implement baseline statistics and `computeBaseline`
+  - [x] 3.1 Implement baseline statistics and `computeBaseline`
     - Create `src/domain/baseline/stats.ts` with `meanOf` and `sampleSd`. Both sum over a copy sorted ascending so reordering gives identical results. `sampleSd` uses n−1, returns 0 for a single value and clamps the variance at zero before the square root.
     - Create `src/domain/baseline/compute-baseline.ts` with the `Baseline` type, `BaselineInput` and `computeBaseline`. Use accepted readings with `asOfDay − windowDays < day ≤ asOfDay` when at least `minWindowReadings` remain, else the seed statistics, else a `baseline-unavailable` error that names the astronaut and the indicator. Read the window length and minimums from `config.baseline`.
     - Delete `src/domain/baseline/.gitkeep`.
     - Invariants: Properties 7, 8, 9, 10.
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8, 11.9, 12.3, 2.3, 2.4_
 
-  - [ ] 3.2 Implement comparison, deviation and persistence rules
+  - [x] 3.2 Implement comparison, deviation and persistence rules
     - Create `src/domain/rules/classification-types.ts` with `RuleHit`, `DeviationEvidence`, `ClassificationContext`, `BaseClassification`, `Classification` and `ResolvedDeviation` as in the design. The `no-data` variant has no `tier` field.
     - Create `src/domain/rules/compare.ts` with `compare(value, comparison)` using an exhaustive `switch` over `gt`, `gte`, `lt`, `lte`.
     - Create `src/domain/rules/deviation.ts` with `classifyDeviation`: one floor gate that applies to both the yellow and the orange tier (TD-2), a `null` floor counted as 0 with `floorPending: true` in the evidence (TD-11), and the direction filter (`both`, `high`, `low`). Return the evidence (mean, SD, signed difference, floor, SD multiples, direction).
@@ -133,36 +133,36 @@ Hard rules that apply to every task:
     - _Requirements: 2.2, 2.3, 2.4, 2.5, 12.1, 12.2, 12.3, 12.4, 15.1, 15.3, 17.1, 18.2, 19.1, 24.7, 26.1_
 
 - [ ] 8. Data files in `src/data/`
-  - [ ] 8.1 Create the engine config and approved source list
+  - [x] 8.1 Create the engine config and approved source list
     - Create `src/data/engine-config.ts` with the shipped values: `deviationDefaults { yellowSd: 2, orangeSd: 3 }` (PROJECT.md 6.2, flag B), `baseline { windowDays: 14, minSeedReadings: 2, minWindowReadings: 2 }`, `freeze.atOrAbove: 'orange'`, `persistence { minTier: 'yellow', consecutivePeriods: 2, raisesTo: 'orange' }`, `confidence { start: 'high', steps { missingData: 1, poorQuality: 1, singleSignal: 1 }, supportBonusSteps: 1 }`. Type it with `satisfies z.input<typeof EngineConfigSchema>`.
     - Create `src/data/indicators/approved-sources.ts` exporting an empty `approvedSourceIds` array.
     - _Requirements: 11.3, 11.9, 12.1, 15.1, 25.1, 3.5, 29.3_
 
-  - [ ] 8.2 Create the vitals indicator drafts
+  - [x] 8.2 Create the vitals indicator drafts
     - Create `src/data/indicators/vitals.ts` with drafts `resting-hr`, `bp-systolic`, `bp-diastolic`, `body-temperature`, `spo2` and `fasting-glucose`, each `satisfies IndicatorDraft`, with `sources: []`.
     - Take limits and operators from PROJECT.md section 6.3 exactly as written (for example resting HR orange `>110` and `<45`, red `>130` and `<40`, with the conditional red for chest pain or fainting; systolic orange `≥140` and `<90`, red `≥180`, conditional red `<80` with any symptom; diastolic orange `≥90`, red `≥120`; temperature orange `≥38.0` and `<35.5`, red `≥39.0` and `<35.0`; SpO₂ orange `<92`, red `<90`; glucose orange `≥126` and `<70`, red `<54` and `>300`). Keep every listed flag (A, B or A, C). Resting HR deviation has floor 5 and flag B. Systolic, diastolic and temperature have deviation settings with `minAbsoluteChange: null` (TD-11, TD-12). Set `periodDays` per TD-17 and store `earthReference` ranges as information only.
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 3.2, 3.3, 3.4, 3.5, 3.8, 3.9, 16.1, 16.2_
 
-  - [ ] 8.3 Create the sleep and behavioural-health indicator drafts
+  - [x] 8.3 Create the sleep and behavioural-health indicator drafts
     - Create `src/data/indicators/sleep-behaviour.ts` with drafts `sleep-hours`, `mood`, `who5` and `reaction-time`, each `satisfies IndicatorDraft`, with `sources: []`.
     - Sleep: orange `<6` h for 3 periods, red `<4` h for 1 period and `<5` h for 5 periods, flags B and C. Mood: orange `≤2` for 3 periods, conditional red `≤1` with a safety flag, flag B, `validRange` 1 to 5. WHO-5: orange `<50`, red `≤28`, flag A, `periodDays: 7`, `validRange` 0 to 100. Reaction time: orange baseline-relative `≥ +25%` for 2 periods, no red rule, flags B and C, deviation direction `high`, floor `null`, `periodDays: 1` marked `proposed-default` (TD-17). Sleep and mood have deviation settings with a `null` floor (TD-11, TD-12).
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 3.2, 3.4, 3.5, 16.3_
 
-  - [ ] 8.4 Create the nutrition and musculoskeletal indicator drafts
+  - [-] 8.4 Create the nutrition and musculoskeletal indicator drafts
     - Create `src/data/indicators/nutrition-msk.ts` with drafts `body-mass-change-30d`, `energy-intake` and `exercise-adherence`, each `satisfies IndicatorDraft`, with `sources: []`.
     - Body mass change: percentage loss, orange `≥5`, red `≥10`, flag A, supplied by the caller. Energy intake: orange `<70` for 3 periods, flags B and C. Exercise adherence: orange `<50` for 2 periods, flags B and C, `periodDays: 7`. Body mass change and energy intake have deviation settings with a `null` floor (TD-11, TD-12).
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 3.2, 3.4, 3.5_
 
-  - [ ] 8.5 Create the radiation and habitat indicator drafts
+  - [-] 8.5 Create the radiation and habitat indicator drafts
     - Create `src/data/indicators/radiation.ts` with drafts `career-effective-dose` and `dose-rate`, and `src/data/indicators/habitat.ts` with draft `cabin-co2`, each `satisfies IndicatorDraft`, with `sources: []`.
     - Career dose: `careerLimitMsv: 600`, flag C, context rules orange at `0.8` of the remaining allowance and red above it; the projected dose is the reading value. Dose rate: orange `> 5×` background for 2 periods (`proposed-default`, TD-14), red `> 20×` background for 1 period, context red for a solar particle event, flags B and C. Cabin CO₂: orange `≥5`, red `≥10` marked as proposed operators (TD-16), flag C, with deviation settings and a `null` floor (TD-11, TD-12).
     - _Requirements: 7.1, 7.2, 7.3, 7.5, 7.6, 7.7, 7.8, 8.1, 8.2, 3.2, 3.5_
 
-  - [ ] 8.6 Create the indicator mapping
+  - [-] 8.6 Create the indicator mapping
     - Create `src/data/indicators/mapping.ts` with the proposed hazard and body-system table from the design (TD-15), typed `satisfies Record<string, { hazards: readonly Hazard[]; system: BodySystem }>` and with `verification.mapping` set to `['C']` for every entry. Every indicator id from tasks 8.2 to 8.5 has an entry.
     - _Requirements: 27.1, 27.2, 3.7_
 
-  - [ ] 8.7 Create the cluster definitions
+  - [-] 8.7 Create the cluster definitions
     - Create `src/data/clusters.ts` with `fatigue-stress` (5 days, `project-doc`, supporting `reaction-time`), `possible-infection`, `under-fuelling`, `possible-co2-exposure` and `vision-change`, each `satisfies ClusterDefinition` with `sources: []`. Use windows of 5 days marked `proposed-default` where PROJECT.md is silent (TD-13), flag B on the first four and C on vision change (TD-23). Under-fuelling uses the directions in TD-22. Vision change has `tierRaises` for `sudden-vision-loss` to red.
     - The CO₂ cluster uses a `baseline-relative` member for cabin CO₂ (`gt`, fraction 0) and one for reaction time (`gte`, fraction 0.25). Add a comment on both marking them as team decision TD-27, accepted by the user, so the team can revisit them.
     - _Requirements: 18.1, 18.5, 19.1, 20.1, 21.1, 22.1, 22.4, 23.1, 23.2, 23.4, 3.5_
