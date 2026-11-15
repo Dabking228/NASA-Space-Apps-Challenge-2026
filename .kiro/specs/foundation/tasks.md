@@ -66,7 +66,7 @@ Constraints that apply to every task:
     - Prop type is `Tier`, so any other value is a type error
     - _Requirements: 3.5, 3.6, 3.9_
 
-- [ ] 3. Folder layout, disclaimer and layout
+- [x] 3. Folder layout, disclaimer and layout
   - [x] 3.1 Create the folder layout with placeholders
     - Create the directories listed in the design under `src/domain/`, `src/simulation/` (including `scenarios/iss`, `scenarios/lunar`, `scenarios/mars`), `src/features/` (`body-map`, `check-in`, `trends`, `alerts`, `escalation`, `radiation`, `countermeasures`), `src/store/`, `src/data/`
     - Put exactly one `.gitkeep` in each directory that would otherwise be empty. Add no indicator, threshold, scenario or source content
@@ -78,7 +78,7 @@ Constraints that apply to every task:
     - The notice text must exist only in `src/data/disclaimer.ts`
     - _Requirements: 12.1, 12.3, 12.4, 12.5, 12.6_
 
-  - [-] 3.3 Build the root layout and placeholder page
+  - [x] 3.3 Build the root layout and placeholder page
     - Update `src/app/layout.tsx` to import `./globals.css`, render `children` inside `<main>` in a `min-h-svh` flex column and render `<DisclaimerFooter />` exactly once
     - Update `src/app/page.tsx` to show the heading "Health Companion" and the four `TierBadge` variants, using Tailwind utilities and shadcn/ui only, with no inline `style` attributes
     - Verify the title and the full notice are visible without scrolling at 1280×720

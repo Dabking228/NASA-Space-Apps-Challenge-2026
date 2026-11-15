@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { DisclaimerFooter } from '@/components/disclaimer-footer';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-svh flex-col">
+        <main className="flex flex-1 flex-col">{children}</main>
+        <DisclaimerFooter />
+      </body>
     </html>
   );
 }
