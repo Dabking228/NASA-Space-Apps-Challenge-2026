@@ -48,7 +48,7 @@ Hard rules that apply to every task:
     - Create `src/domain/type-guards.ts` with `Equal<A, B>`, `Expect<T extends true>`, and one exported assertion alias per exported type against its `z.infer` type. Add `TierMatchesSchema`, `TierOrderIsComplete`, `ConfidenceOrderIsComplete` and `BodySystemOrderIsComplete`. The file contains types only and no runtime code.
     - _Requirements: 1.1, 1.2, 1.3, 10.4, 29.2, 29.3_
 
-- [ ] 2. Checkpoint - Foundation compiles
+- [-] 2. Checkpoint - Foundation compiles
   - Run `npm run check` (lint, format:check, typecheck) and fix every failure. Ensure all checks pass, ask the user if questions arise.
 
 - [x] 3. Baseline and classification
@@ -118,21 +118,21 @@ Hard rules that apply to every task:
 - [ ] 6. Checkpoint - Engine pieces compile
   - Run `npm run check` and fix every failure. Ensure all checks pass, ask the user if questions arise.
 
-- [ ] 7. Evaluation orchestrator
+- [x] 7. Evaluation orchestrator
   - [x] 7.1 Implement input preparation for the replay
     - Create `src/domain/evaluate-input.ts` as a helper for `evaluate.ts`. Define `EvaluationInput`, `DayState` and `EvaluationResult` exactly as in the design, with `readonly` fields and arrays.
     - Add a function that prepares input: drops records of other astronauts and records after `asOfDay`; validates records with `safeParse` and reports `invalid-input`; reports `unknown-indicator` and `value-out-of-range` (against `validRange`) and ignores those readings; reports `duplicate-reading` and keeps one reading by the fixed order good quality first, then lower value (TD-24); and returns copies sorted by a total order (readings by day, indicator id, quality, value; symptoms by day, kind; safety flags by day; alerts by start day, end day). Sort copies only, never in place.
     - Invariants: Properties 2, 13, 25.
     - _Requirements: 2.3, 2.4, 10.2, 10.3, 10.6, 12.4, 18.7_
 
-  - [-] 7.2 Implement `evaluateAstronaut`
+  - [x] 7.2 Implement `evaluateAstronaut`
     - Create `src/domain/evaluate.ts` with the day-by-day replay from `startDay` (default: earliest reading day, else `asOfDay`) to `asOfDay`. On each day: hold the previous baselines if the previous day was frozen, else compute baselines as of `day − 1` from accepted readings (quality `good` on a non-frozen day), with the seed on the first day (a reading never shapes its own baseline); run `classifyBase` per indicator; apply persistence using base tiers one `periodDays` apart (TD-20); set `frozen` when any final tier is at or above `config.freeze.atOrAbove`.
     - After the loop: run `detectClusters` over the window ending at `asOfDay`, `buildFindings`, and `aggregateBodySystems`. Return classifications ordered by indicator id, findings ordered by id, body systems in `BODY_SYSTEM_ORDER`, the per-day `history`, and the collected `errors`. A `baseline-unavailable` error does not stop hard-limit and sequence evaluation.
     - Never mutate input, read a clock, or throw. Do not import from `src/data/`: receive catalog, clusters, config and text as parameters.
     - Invariants: Properties 2, 11, 12, 13, 25 (review these first when this file changes).
     - _Requirements: 2.2, 2.3, 2.4, 2.5, 12.1, 12.2, 12.3, 12.4, 15.1, 15.3, 17.1, 18.2, 19.1, 24.7, 26.1_
 
-- [ ] 8. Data files in `src/data/`
+- [x] 8. Data files in `src/data/`
   - [x] 8.1 Create the engine config and approved source list
     - Create `src/data/engine-config.ts` with the shipped values: `deviationDefaults { yellowSd: 2, orangeSd: 3 }` (PROJECT.md 6.2, flag B), `baseline { windowDays: 14, minSeedReadings: 2, minWindowReadings: 2 }`, `freeze.atOrAbove: 'orange'`, `persistence { minTier: 'yellow', consecutivePeriods: 2, raisesTo: 'orange' }`, `confidence { start: 'high', steps { missingData: 1, poorQuality: 1, singleSignal: 1 }, supportBonusSteps: 1 }`. Type it with `satisfies z.input<typeof EngineConfigSchema>`.
     - Create `src/data/indicators/approved-sources.ts` exporting an empty `approvedSourceIds` array.
@@ -171,7 +171,7 @@ Hard rules that apply to every task:
     - Create `src/data/finding-text.ts` typed `satisfies FindingText`. Provide the reason templates, `opWords`, one rule sentence per rule kind, `tierSteps` for yellow, orange and red (self-management and watch the trend; guided assessment and prepare a message to ground; immediate steps and urgent escalation, from PROJECT.md section 8), and `clusterSteps` by cluster id. The CO₂ cluster's first step is to check the environment. Include no medication, dosing or treatment advice. Use plain language suitable for non-experts.
     - _Requirements: 22.2, 24.2, 24.6, 24.8_
 
-  - [-] 8.9 Wire the default catalog
+  - [x] 8.9 Wire the default catalog
     - Create `src/data/indicators/index.ts` that collects the drafts from tasks 8.2 to 8.5, calls `buildCatalog` once at module load with the mapping, clusters, engine config and `approvedSourceIds`, and exports `defaultCatalog`. On `ok: false`, throw an error whose message lists every problem with entry id and field path, so invalid shipped data stops the dev server and the build. Do not add an unverified-indicator check that fails the build (TD-10).
     - _Requirements: 3.1, 3.6, 28.5, 29.4, 29.13_
 
