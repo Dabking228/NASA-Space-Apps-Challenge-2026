@@ -67,18 +67,18 @@ Constraints that apply to every task:
     - _Requirements: 3.5, 3.6, 3.9_
 
 - [ ] 3. Folder layout, disclaimer and layout
-  - [ ] 3.1 Create the folder layout with placeholders
+  - [x] 3.1 Create the folder layout with placeholders
     - Create the directories listed in the design under `src/domain/`, `src/simulation/` (including `scenarios/iss`, `scenarios/lunar`, `scenarios/mars`), `src/features/` (`body-map`, `check-in`, `trends`, `alerts`, `escalation`, `radiation`, `countermeasures`), `src/store/`, `src/data/`
     - Put exactly one `.gitkeep` in each directory that would otherwise be empty. Add no indicator, threshold, scenario or source content
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
 
-  - [ ] 3.2 Implement the disclaimer constant and footer
+  - [x] 3.2 Implement the disclaimer constant and footer
     - Create `src/data/disclaimer.ts` exporting `DISCLAIMER_NOTICE` (decision support, not a diagnostic device, synthetic data and draft thresholds) and `assertDisclaimerPresent(text)` that throws on empty text, then call it at module load
     - Create `src/components/disclaimer-footer.tsx` as a server component using wrapping utilities and none of `truncate`, `line-clamp-*`, `overflow-hidden`, `hidden` or `sr-only`
     - The notice text must exist only in `src/data/disclaimer.ts`
     - _Requirements: 12.1, 12.3, 12.4, 12.5, 12.6_
 
-  - [ ] 3.3 Build the root layout and placeholder page
+  - [-] 3.3 Build the root layout and placeholder page
     - Update `src/app/layout.tsx` to import `./globals.css`, render `children` inside `<main>` in a `min-h-svh` flex column and render `<DisclaimerFooter />` exactly once
     - Update `src/app/page.tsx` to show the heading "Health Companion" and the four `TierBadge` variants, using Tailwind utilities and shadcn/ui only, with no inline `style` attributes
     - Verify the title and the full notice are visible without scrolling at 1280×720
