@@ -16,7 +16,7 @@ Hard rules that apply to every task:
 
 ## Tasks
 
-- [~] 1. Vocabulary, schemas and shared helpers
+- [x] 1. Vocabulary, schemas and shared helpers
   - [x] 1.1 Create vocabulary, input schemas and the environment profile
     - Create `src/domain/schemas/vocabulary.ts` with Zod 4 schemas and inferred types for `VerificationFlag`, `Confidence`, `Hazard`, `BodySystem`, `QualityFlag`, `SymptomKind`, `MissionDay` and `RuleSource` (`project-doc` or `proposed-default`). Export `BODY_SYSTEM_ORDER` (`as const satisfies readonly BodySystem[]`) and `BODY_SYSTEM_LABELS` (`satisfies Record<BodySystem, string>`).
     - Create `src/domain/schemas/source.ts` (`SourceReferenceSchema`) and `src/domain/schemas/reading.ts` (`ReadingSchema`, `SymptomReportSchema`, `SafetyFlagSchema`, `AlertReportSchema` with the `endDay >= startDay` refinement). Use `z.strictObject`, no `.transform`, no `.catch`, no `.preprocess`. Infer every type with `z.infer` from the same schema.
@@ -43,7 +43,7 @@ Hard rules that apply to every task:
     - Invariants: Property 1 (worst tier).
     - _Requirements: 1.3, 1.4, 1.5, 1.6, 10.3, 10.6, 2.3_
 
-  - [-] 1.5 Re-export types and add compile-time type assertions
+  - [x] 1.5 Re-export types and add compile-time type assertions
     - Update `src/domain/types.ts` to keep the existing `Tier` declaration and add `export type { ... } from './schemas/...'` for every other exported type (Verification_Flag, Confidence, Hazard, Body_System, Source_Reference, Reading, Symptom_Report, Indicator_Definition, Finding, Environment_Profile and the rest from tasks 1.1 to 1.3).
     - Create `src/domain/type-guards.ts` with `Equal<A, B>`, `Expect<T extends true>`, and one exported assertion alias per exported type against its `z.infer` type. Add `TierMatchesSchema`, `TierOrderIsComplete`, `ConfidenceOrderIsComplete` and `BodySystemOrderIsComplete`. The file contains types only and no runtime code.
     - _Requirements: 1.1, 1.2, 1.3, 10.4, 29.2, 29.3_
