@@ -16,28 +16,28 @@ Hard rules that apply to every task:
 
 ## Tasks
 
-- [ ] 1. Vocabulary, schemas and shared helpers
-  - [ ] 1.1 Create vocabulary, input schemas and the environment profile
+- [~] 1. Vocabulary, schemas and shared helpers
+  - [x] 1.1 Create vocabulary, input schemas and the environment profile
     - Create `src/domain/schemas/vocabulary.ts` with Zod 4 schemas and inferred types for `VerificationFlag`, `Confidence`, `Hazard`, `BodySystem`, `QualityFlag`, `SymptomKind`, `MissionDay` and `RuleSource` (`project-doc` or `proposed-default`). Export `BODY_SYSTEM_ORDER` (`as const satisfies readonly BodySystem[]`) and `BODY_SYSTEM_LABELS` (`satisfies Record<BodySystem, string>`).
     - Create `src/domain/schemas/source.ts` (`SourceReferenceSchema`) and `src/domain/schemas/reading.ts` (`ReadingSchema`, `SymptomReportSchema`, `SafetyFlagSchema`, `AlertReportSchema` with the `endDay >= startDay` refinement). Use `z.strictObject`, no `.transform`, no `.catch`, no `.preprocess`. Infer every type with `z.infer` from the same schema.
     - Create `src/domain/environments/environment-profile.ts` with `EnvironmentProfileSchema` (`id`, `label`, `backgroundDoseRateMsvPerDay`, `hazardWeights` keyed by all five hazards) and its type. Include no ISS, lunar or Mars values. Delete `src/domain/environments/.gitkeep`.
     - Reuse the existing `TierSchema` from `src/domain/tier-schema.ts` and the `Tier` type from `src/domain/types.ts` without redefining them.
     - _Requirements: 1.1, 1.2, 9.1, 9.3, 9.4, 10.1, 10.2, 10.4, 10.6, 2.1, 2.5_
 
-  - [ ] 1.2 Create the indicator definition and engine config schemas
+  - [-] 1.2 Create the indicator definition and engine config schemas
     - Create `src/domain/schemas/indicator.ts` with `ComparisonSchema`, `SequenceConditionSchema`, `SequenceRuleSchema`, `ConditionalRuleSchema`, `ContextRuleSchema`, `DeviationSettingsSchema` (`minAbsoluteChange` nullable, `direction` default `both`), `IndicatorDefinitionSchema`, and the `IndicatorDraft` type (the definition without `hazards`, `system` and `verification.mapping`). Keep `sources` as an array that may be empty, `verification.thresholds` and `verification.mapping` as arrays with at least one flag, and `earthReference` as informational data only.
     - Create `src/domain/schemas/config.ts` with `EngineConfigSchema` (`deviationDefaults`, `baseline`, `freeze`, `persistence`, `confidence`) as in the design.
     - Export the inferred types: `IndicatorDefinition`, `IndicatorDraft`, `Comparison`, `EngineConfig`, and the config sub-types needed by later tasks (`BaselineConfig`, `PersistenceConfig`, `ConfidenceConfig`, `ResolvedDeviation`).
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.7, 3.9, 10.1, 10.2, 10.4, 29.4_
 
-  - [ ] 1.3 Create the cluster, finding and catalog-problem schemas
+  - [-] 1.3 Create the cluster, finding and catalog-problem schemas
     - Create `src/domain/schemas/cluster.ts` with `ClusterMemberSchema` (kinds `indicator`, `baseline-relative`, `symptom`) and `ClusterDefinitionSchema` (`windowDays`, `windowSource`, `tier`, `system`, `members`, `supporting`, `tierRaises`, `verification`, `sources`).
     - Create `src/domain/schemas/finding.ts` with `FindingSchema` (`id`, `kind`, `clusterId?`, `day`, `tier`, `reason`, `confidence`, `action`, `sourceIds` that may be empty, `indicators`, `system`).
     - Create `src/domain/schemas/catalog-problem.ts` with `CatalogProblemCodeSchema` and `CatalogProblemSchema`. Every field is a string so the value survives a JSON round trip.
     - Export the inferred types `ClusterDefinition`, `ClusterMember`, `Finding`, `CatalogProblem` and `CatalogProblemCode`.
     - _Requirements: 10.1, 10.4, 18.1, 24.1, 24.9, 24.10, 29.4, 29.14_
 
-  - [ ] 1.4 Create tier helpers and the `Result` type
+  - [-] 1.4 Create tier helpers and the `Result` type
     - Create `src/domain/tiers.ts` with `TIER_ORDER` and `CONFIDENCE_ORDER` (`as const satisfies`), `compareTiers`, `maxTier`, and `worstTier(tiers: readonly [Tier, ...Tier[]])`. The order is green < yellow < orange < red and low < medium < high.
     - Create `src/domain/result.ts` with `Result<T, E>` and the `DomainError` union (`unknown-indicator`, `baseline-unavailable`, `duplicate-reading`, `value-out-of-range`, `invalid-input`), each with a `message` that names the offending id or field.
     - Invariants: Property 1 (worst tier).
