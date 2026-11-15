@@ -84,48 +84,48 @@ Constraints that apply to every task:
     - Verify the title and the full notice are visible without scrolling at 1280×720
     - _Requirements: 1.5, 1.6, 2.6, 12.2_
 
-- [ ] 4. Checkpoint - Ensure the quality gate passes
+- [x] 4. Checkpoint - Ensure the quality gate passes
   - Run `npm run check` and `npm run build`. Ensure both exit 0, ask the user if questions arise.
 
-- [ ] 5. Sample store and development chart route
-  - [ ] 5.1 Create the sample Zustand store
+- [x] 5. Sample store and development chart route
+  - [x] 5.1 Create the sample Zustand store
     - Create `src/store/counter-store.ts` with `count` (initial 0), `increment` and `reset`, as in the design
     - Import the store only from files that start with `"use client"`
     - _Requirements: 6.2, 6.3_
 
-  - [ ] 5.2 Add the development-only chart check route
+  - [x] 5.2 Add the development-only chart check route
     - Create `src/app/dev/chart-check/page.dev.tsx` and a `"use client"` component `chart-check.tsx` rendering one Recharts `LineChart` with five hard-coded points and no network requests, wrapped in a class-based error boundary that shows "Chart failed to render" on error. The component also reads `useCounterStore`
     - Update `next.config.ts` so `pageExtensions` includes `dev.tsx` only when `NODE_ENV === 'development'`
     - Confirm that a production build omits `/dev/chart-check` and that `next start` returns 404 for it. If `pageExtensions` does not behave as designed, stop and raise it with the user rather than changing the requirement
     - _Requirements: 6.3, 6.5, 6.6, 6.7_
 
-- [ ] 6. Lint rules that enforce the architecture
-  - [ ] 6.1 Implement the local ESLint rules
+- [x] 6. Lint rules that enforce the architecture
+  - [x] 6.1 Implement the local ESLint rules
     - Create `eslint-rules/no-literal-colors.mjs`: report string literals and template elements containing hex colours (3, 4, 6 or 8 digits) or `rgb(`, `rgba(`, `hsl(`, `hsla(`, `oklch(`, including inside Tailwind arbitrary values. Allow `var(--token)`
     - Create `eslint-rules/no-unjustified-style.mjs`: report a JSX `style` attribute unless its value is a runtime expression and a comment ends on the line directly above
     - _Requirements: 3.8, 10.5_
 
-  - [ ] 6.2 Compose the ESLint flat config
+  - [x] 6.2 Compose the ESLint flat config
     - Create `eslint.rules.mjs` exporting `projectRules` and update `eslint.config.mjs` using the block order in the design: ignores, `eslint-config-next` core-web-vitals and typescript, `no-explicit-any`, `Math.random` outside `src/lib/`, the framework-free layer rules (restricted properties `Math.random` and `Date.now`, restricted imports and destructuring ban) for `src/domain/**` and `src/simulation/**`, local colour and style rules, `better-tailwindcss/no-unregistered-classes` with `entryPoint` set to `src/app/globals.css`, then `eslint-config-prettier`
     - Give every restricted-import message the rule and the reason (D4)
     - Fix any violations in files created so far so that `npm run lint` and `npm run build` exit 0
     - _Requirements: 2.8, 3.8, 5.1, 5.2, 5.3, 5.4, 5.5, 8.1, 8.3, 8.5, 8.7, 10.5_
 
-- [ ] 7. Steering files
-  - [ ] 7.1 Create the three steering files
+- [x] 7. Steering files
+  - [x] 7.1 Create the three steering files
     - Create `.kiro/steering/product.md`, `tech.md` and `structure.md`, each starting with front matter `inclusion: always`
     - `product.md`: purpose, concept and core loop, scope, decision-support positioning, and a "Source of truth and honesty" block (`docs/PROJECT.md` is the source of truth, stop and ask on conflict, thresholds are drafts with flags, never present a flag C value as fact)
-    - `tech.md`: stack, architecture rules, styling rules, code conventions, and an "Agent rules" list with one bold line each: No PWA, No backend, No ML, No custom CSS, No health logic in components, No invented thresholds or sources, No `Math.random()`, Tests alongside domain functions, Ask when a requirement is ambiguous
+    - `tech.md`: stack, architecture rules, styling rules, code conventions, and an "Agent rules" list with one bold line each: No PWA, No backend, No ML, No custom CSS, No health logic in components, No invented thresholds or sources, No `Math.random()`, No test runner, Ask when a requirement is ambiguous
     - `structure.md`: every folder from section 13.4 and every simulation group from section 11.1 of `docs/PROJECT.md`
     - Include no threshold numbers
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7_
 
-- [ ] 8. Documentation
-  - [ ] 8.1 Write the README script documentation
+- [x] 8. Documentation
+  - [x] 8.1 Write the README script documentation
     - Create or update `README.md` with one entry per script in the form ``- `name`: description`` (1 to 200 characters) for `dev`, `build`, `start`, `lint`, `format`, `format:check`, `typecheck` and `check`. Do not list `test` or `test:watch`
     - _Requirements: 9.1, 9.8_
 
-- [ ] 9. Final checkpoint - Ensure the quality gate and build pass
+- [x] 9. Final checkpoint - Ensure the quality gate and build pass
   - Run `npm run check` and `npm run build`, and confirm `/dev/chart-check` is absent from the production build output. Then work through the manual verification steps in the design's "Integration and manual verification" section. Ask the user if questions arise.
 
 ## Notes
