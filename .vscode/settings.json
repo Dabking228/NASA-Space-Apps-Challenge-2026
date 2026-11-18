@@ -1,0 +1,7 @@
+{
+    "kiroAgent.trustedCommands": [
+        "npm *",
+        "npx prettier --end-of-line crlf src/simulation/engine/problem.ts | Out-File -Encoding utf8 $env:TEMP/problem-pretty.ts; git diff --no-index --stat src/simulation/engine/problem.ts $env:TEMP/problem-pretty.ts; git diff --no-index src/simulation/engine/problem.ts $env:TEMP/problem-pretty.ts | Select-Object -First 40",
+        "npx *"
+    ]
+}
